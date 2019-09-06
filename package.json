@@ -1,0 +1,25 @@
+{
+  "name": "twitch-giphy",
+  "version": "1.0.0",
+  "description": "Um chatbot para Twitch que integra a API do GIPHY para aprender Typescript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc -w",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codigofalado/twitch-giphy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codigofalado/twitch-giphy/issues"
+  },
+  "homepage": "https://github.com/codigofalado/twitch-giphy#readme",
+  "dependencies": {
+    "twitch-js": "^2.0.0-beta.30"
+  }
+}
