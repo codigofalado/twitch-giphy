@@ -12,6 +12,7 @@ Um chatbot para Twitch que integra a API do GIPHY para aprender Typescript
 - [x] - Renderizar o GIF na tela
 - [x] - Remover o GIF da tela depois de 8 segundos
 - [ ] - Criar uma classe em Typescript para lidar com o chatbot/servidor
+- [ ] - Alterar a tela do GIF (Browser) para exibir o Username + Balão estilo quadrinhos que cerca todo o GIF.
 - [ ] - Refatorar para permitir que todos os streamers DO MUNDO façam uso dessa MARAVILHA da natureza que REVOLUCIONA as Lives :)
 
 ## Nice to have
