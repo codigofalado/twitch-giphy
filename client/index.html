@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ChatClient</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+    />
+    <link rel="stylesheet" href="main.css" />
+  </head>
+
+  <body>
+    <iframe
+      style="display: none"
+      id="giphyIframe"
+      src="about:blank"
+      frameborder="0"
+      class="giphy-embed"
+      allowFullScreen
+    ></iframe>
+
+    <script src="//localhost:3000/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect("http://localhost:3000");
+      socket.on("giphy", function(data) {
+        var iframe = document.getElementById("giphyIframe");
+        iframe.src = data.gif;
+        iframe.style.display = "block";
+        setTimeout(() => {
+          iframe.style.display = "none";
+        }, 8000);
+        console.log(data);
+        //socket.emit("my other event", { my: "data" });
+      });
+    </script>
+  </body>
+</html>

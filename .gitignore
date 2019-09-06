@@ -62,3 +62,6 @@ typings/
 
 # Generated javascript
 dist
+
+# Bot Config File
+src/config/config.ts
