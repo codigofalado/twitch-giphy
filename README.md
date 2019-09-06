@@ -20,3 +20,5 @@ Um chatbot para Twitch que integra a API do GIPHY para aprender Typescript
 - [ ] - Fazer uma fila de GIFs para garantir que o GIF de todos será exibido
 - [ ] - Poder definir quem pode usar o comando (todos, só seguidores, só subs)
 - [ ] - Automatizar um deploy para AWS (sempre disponível)
+- [ ] - Sisteminha básico de pontos para evitar FLOOD (ou integrar com Cheer)
+- [ ] - Implementar cooldown de X segundos para evitar FLOOD.
