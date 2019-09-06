@@ -27,6 +27,7 @@
         var iframe = document.getElementById("giphyIframe");
         iframe.src = data.gif;
         iframe.style.display = "block";
+        document.querySelector("body").style.backgroundColor = data.color;
         setTimeout(() => {
           iframe.style.display = "none";
         }, 8000);
