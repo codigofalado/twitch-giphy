@@ -22,3 +22,4 @@ Um chatbot para Twitch que integra a API do GIPHY para aprender Typescript
 - [ ] - Automatizar um deploy para AWS (sempre disponível)
 - [ ] - Sisteminha básico de pontos para evitar FLOOD (ou integrar com Cheer)
 - [ ] - Implementar cooldown de X segundos para evitar FLOOD.
+- [ ] - Possibilitar integração com outras plataformas além do Twitch.
