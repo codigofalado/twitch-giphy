@@ -5,6 +5,11 @@
 Um chatbot para Twitch que integra a API do GIPHY para aprender Typescript
 
 ### Exemplo: 
+Ao executar o comando:
+```
+!giphy {NOME_DO_GIF}
+```
+Ele exibe na sua tela da Twitch.tv:
 ![Exemplo do Gif](docs/exemplo.png)
 
 ## Como rodar na sua maquina:
