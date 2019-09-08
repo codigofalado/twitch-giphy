@@ -57,7 +57,12 @@ chat.on("PRIVMSG", privateMessage => {
           log(res);
           if (err == null) {
             const gif_embed = res.data.embed_url;
-            io.emit("giphy", { gif: gif_embed, user: username, color: color });
+            io.emit("giphy", {
+              gif: gif_embed,
+              user: username,
+              color: color,
+              message: gif_search
+            });
           } else {
             chat.say(
               config.channels[0],

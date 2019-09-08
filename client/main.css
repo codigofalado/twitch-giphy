@@ -5,9 +5,19 @@ body::after {
   position: absolute;
   z-index: 10;
 }
-#giphyIframe {
+h2 {
+  font-family: "Fira Code";
+}
+#container {
   position: absolute;
   top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+#giphyIframe {
+  position: absolute;
+  top: 40px;
   left: 0;
   width: 100vw;
   height: 100vh;
