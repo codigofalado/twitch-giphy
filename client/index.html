@@ -8,48 +8,24 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
     />
     <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="twitch-giphy.css" />
   </head>
 
   <body>
-    <div id="container" style="display: none">
-      <h2><span id="username"></span>: <span id="message"></span></h2>
-      <iframe
-        id="giphyIframe"
-        src="about:blank"
-        frameborder="0"
-        class="giphy-embed"
-        allowFullScreen
-      ></iframe>
-    </div>
-
-    <script src="//localhost:3000/socket.io/socket.io.js"></script>
+    <div id="twitch-giphy"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="twitch.giphy.js"></script>
     <script>
-      var socket = io.connect("http://localhost:3000");
-      var showing = false;
-      var iframe = document.getElementById("giphyIframe");
-      var container = document.getElementById("container");
-      var username = document.getElementById("username");
-      var message = document.getElementById("message");
-      function showGIF(data) {
-        if (!showing) {
-          showing = true;
-          iframe.src = data.gif;
-          container.style.display = "block";
-          container.style.backgroundColor = data.color;
-          username.innerText = "@" + data.user;
-          message.innerText = data.message;
-          setTimeout(() => {
-            container.style.display = "none";
-            showing = false;
-          }, 8000);
-          console.log(data);
-        } else {
-          setTimeout(showGIF(data), 2000);
-        }
-      }
-      socket.on("giphy", function(data) {
-        showGIF(data);
-        //socket.emit("my other event", { my: "data" });
+      window.addEventListener('load', () => {
+        const options = {
+          duration: 8, // Opcional: valor em segundos (Valor padrão é 8)
+          max_queue: 10, // Opcional: quantidade máxima de gifs na fila (Valor padrão é 10)
+          separator: ':', // Opcional: separador entre o nome e mensagem (Valor padrão é :)
+        };
+        const twitch_giphy = new TwitchGiphy(
+          document.getElementById('twitch-giphy'),
+          options
+        );
       });
     </script>
   </body>
