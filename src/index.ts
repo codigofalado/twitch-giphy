@@ -2,7 +2,7 @@ import Twitch from "twitch-js";
 import config from "./config/config";
 import Giphy from "giphy-api";
 import express from "express";
-import http from "http";
+import { Server } from "http";
 import SocketIO from "socket.io";
 
 const giphy = Giphy(config.giphy);
@@ -14,8 +14,8 @@ const { api, chat, chatConstants } = new Twitch({
 
 // Express Stuff
 const app = express();
-const server = http.Server(app);
-const io = new SocketIO(server);
+const server = new Server(app);
+const io = SocketIO(server);
 const port = process.env.PORT || 3000;
 
 server.listen(port);

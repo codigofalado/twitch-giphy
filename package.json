@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "tsc -w",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,8 @@
     "twitch-js": "^2.0.0-beta.30"
   },
   "devDependencies": {
-    "nodemon": "^1.19.2"
+    "nodemon": "^1.19.2",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.6.2"
   }
 }
