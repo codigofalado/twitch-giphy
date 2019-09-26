@@ -1,0 +1,27 @@
+.twitch-giphy {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  visibility: hidden;
+
+  padding: 1em;
+  grid-template-rows: 2.5em 1fr;
+}
+
+.twitch-giphy__gif {
+  width: 100%;
+  height: 100%;
+}
+
+.twitch-giphy .twitch-giphy__sender {
+  font-size: 1.5em;
+}
+
+.twitch-giphy .twitch-giphy__sender .sender__username {
+  font-weight: bold;
+}
+
+.twitch-giphy .twitch-giphy__sender .sender__message {
+  font-weight: lighter;
+}

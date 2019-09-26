@@ -1,82 +1,73 @@
-import Twitch from "twitch-js";
-import config from "./config/config";
-import Giphy from "giphy-api";
-import express from "express";
-import http from "http";
-import SocketIO from "socket.io";
+import twitch from 'twitch-js';
+import giphy from 'giphy-api';
 
-const giphy = Giphy(config.giphy);
+import config from './config';
+import server from './server';
+import { GenerateColor } from './utils/color';
+import { Command, MatchCommand, GetArgs } from './command';
 
-const { api, chat, chatConstants } = new Twitch({
-  token: config.identity.token,
-  username: config.identity.username
-});
+async function main() {
+  try {
+    // Inicia o servidor
+    const Server = server();
 
-// Express Stuff
-const app = express();
-const server = http.Server(app);
-const io = new SocketIO(server);
-const port = process.env.PORT || 3000;
+    // Inicializa a API da Twitch e do Giphy
+    const { channels, token, username } = config.twitch;
+    const { token: giphy_token, rating } = config.giphy;
+    const { chat } = new twitch({ token, username });
+    const gif = giphy(giphy_token);
 
-server.listen(port);
+    // Conecta na Twitch e aos entra nos chats configurados
+    await chat.connect();
+    await Promise.all(channels.map(ch => chat.join(ch)));
 
-app.use(express.static("client"));
+    // Escutar todas as mensagem privadas
+    chat.on('PRIVMSG', async payload => {
+      const {
+        tags: { color },
+        username,
+        message,
+        channel,
+      } = payload;
 
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/../client/index.html");
-});
+      // Caso o usuário não tem uma cor definida, ele irá gerar uma cor
+      const user_color = color === true ? GenerateColor() : color;
 
-// Listen to all events.
-const log = (msg: any) => console.log(msg);
-// chat.on(chatConstants.EVENTS.ALL, log);
+      switch (true) {
+        case MatchCommand(Command.Giphy, message): {
+          const gif_search = GetArgs(Command.Giphy, message); // GIF Search Term
 
-// Connect ...
-chat.connect().then(() => {
-  // ... and then join the channel.
-  chat.join(config.channels[0]);
-});
+          // Se não houver o termo de busca, será ignorado
+          if (!gif_search) return;
 
-// Listen to private messages
-chat.on("PRIVMSG", privateMessage => {
-  log("Private Message MAOE" + privateMessage);
-  const color = privateMessage.tags.color;
-  const username = privateMessage.username;
-  const message = privateMessage.message;
+          try {
+            const {
+              data: { embed_url },
+            } = await gif.translate({ s: gif_search, rating });
 
-  if (message.startsWith("!giphy")) {
-    const gif_search = message.substring(6).trim(); // GIF Search Term
-    if (gif_search != "") {
-      // Translate search with options
-      giphy.translate(
-        {
-          s: gif_search,
-          rating: "g"
-        },
-        function(err, res) {
-          log(err);
-          log(res);
-          if (err == null) {
-            const gif_embed = res.data.embed_url;
-            io.emit("giphy", {
-              gif: gif_embed,
+            Server.emit('giphy', {
+              gif: embed_url,
               user: username,
-              color: color,
-              message: gif_search
+              color: user_color,
+              message: gif_search,
             });
-          } else {
+          } catch (err) {
             chat.say(
-              config.channels[0],
-              "@" + username + ", Desculpa, não achei GIF sobre " + gif_search
+              channel.substring(1),
+              `@${username}, Desculpa, não achei GIF sobre ${gif_search}`
             );
           }
         }
-      );
-    }
-  }
-});
 
-// io.on("connection", function(socket) {
-//   socket.on("send_giphy", function(data) {
-//     socket.emit("giphy", data);
-//   });
-// });
+        default: {
+          break;
+        }
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+}
+
+main();
