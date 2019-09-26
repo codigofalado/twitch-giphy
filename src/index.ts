@@ -1,19 +1,46 @@
-import twitch from 'twitch-js';
-import giphy from 'giphy-api';
-
-import config from './config';
-import server from './server';
-import { GenerateColor } from './utils/color';
-import { Command, MatchCommand, GetArgs } from './command';
+import "./utils/env";
+import twitch from "twitch-js";
+import giphy from "giphy-api";
+import { CreateConfiguration } from "./config/index";
+import { CheckConfiguratonParameters } from "./utils/utils";
+import server from "./server";
+import { GenerateColor } from "./utils/color";
+import { Command, MatchCommand, GetArgs } from "./command";
 
 async function main() {
   try {
+    // verifica se os valores lidos das variaveis de ambiente obtidas do ficheiro configuração (.env) estão presentes e correctos
+    if (
+      !CheckConfiguratonParameters(
+        process.env.TWITCH_USERNAME,
+        process.env.TWITCH_TOKEN,
+        process.env.TWITCH_CHANNELS,
+        process.env.GIPHY_TOKEN
+      )
+    ) {
+      throw new Error(
+        "Não foram fornecidos paramêtros de configuração.\nOu falta algum paramêtro necessário para o funcionamento correcto do chatbot."
+      );
+    }
+    //
+    // cria o objecto configuração com base na informação recebida das variaveis de ambiente obtidas do ficheiro configuração (.env) 
+    const userconfig = CreateConfiguration(
+      process.env.TWITCH_USERNAME,
+      process.env.TWITCH_TOKEN,
+      process.env.TWITCH_CHANNELS,
+      process.env.GIPHY_TOKEN,
+      process.env.GIPHY_RATING?process.env.GIPHY_RATING:'g'
+    );
+    
     // Inicia o servidor
     const Server = server();
 
-    // Inicializa a API da Twitch e do Giphy
-    const { channels, token, username } = config.twitch;
-    const { token: giphy_token, rating } = config.giphy;
+  
+    // destrutura os valores obtidos para o twitch e giphy obtidos
+    const { channels,token,username}= userconfig.twitch;
+    const { token: giphy_token, rating }=userconfig.giphy;
+
+    //Inicializa a API da Twitch e do Giphy
     const { chat } = new twitch({ token, username });
     const gif = giphy(giphy_token);
 
@@ -22,12 +49,12 @@ async function main() {
     await Promise.all(channels.map(ch => chat.join(ch)));
 
     // Escutar todas as mensagem privadas
-    chat.on('PRIVMSG', async payload => {
+    chat.on("PRIVMSG", async payload => {
       const {
         tags: { color },
         username,
         message,
-        channel,
+        channel
       } = payload;
 
       // Caso o usuário não tem uma cor definida, ele irá gerar uma cor
@@ -42,14 +69,14 @@ async function main() {
 
           try {
             const {
-              data: { embed_url },
+              data: { embed_url }
             } = await gif.translate({ s: gif_search, rating });
 
-            Server.emit('giphy', {
+            Server.emit("giphy", {
               gif: embed_url,
               user: username,
               color: user_color,
-              message: gif_search,
+              message: gif_search
             });
           } catch (err) {
             chat.say(

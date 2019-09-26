@@ -64,4 +64,4 @@ typings/
 dist
 
 # Bot Config File
-src/config/index.ts
+#src/config/index.ts
