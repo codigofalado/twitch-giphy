@@ -23,6 +23,7 @@ Um chatbot para Twitch que integra a API do GIPHY para aprender Typescript
 - [ ] - Sisteminha básico de pontos para evitar FLOOD (ou integrar com Cheer)
 - [ ] - Implementar cooldown de X segundos para evitar FLOOD.
 - [ ] - Possibilitar integração com outras plataformas além do Twitch.
+- [ ] - Possibilitar o uso de múltiplos comandos (`!gif`, `!giphy`).
 
 ## Configurando o Projeto
 
@@ -37,18 +38,18 @@ Antes de tudo você precisa configurar as opções de API da Twitch e do Giphy. 
 - **GIPHY_TOKEN**, você pode obter através de https://developers.giphy.com/
 
 ```ts
-import { Configuration } from './configuration';
+import { Configuration } from "./configuration";
 
 const config: Configuration = {
   twitch: {
-    username: 'TWITCH_USERNAME',
-    token: 'TWITCH_TOKEN',
-    channels: ['TWITCH_CHAT_CHANNEL'],
+    username: "TWITCH_USERNAME",
+    token: "TWITCH_TOKEN",
+    channels: ["TWITCH_CHAT_CHANNEL"]
   },
   giphy: {
-    rating: 'GIPHY_RATING',
-    token: 'GIPHY_TOKEN',
-  },
+    rating: "GIPHY_RATING",
+    token: "GIPHY_TOKEN"
+  }
 };
 
 export default config;
@@ -62,11 +63,11 @@ Para customizar a exibição, vá no arquivo `client/index.html` e procure por:
 
 ```html
 <script>
-  window.addEventListener('load', () => {
+  window.addEventListener("load", () => {
     const options = {
       duration: 8, // Opcional: valor em segundos (Valor padrão é 8)
       max_queue: 10, // Opcional: quantidade máxima de gifs na fila (Valor padrão é 10)
-      separator: ':', // Opcional: separador entre o nome e mensagem (Valor padrão é :)
+      separator: ":" // Opcional: separador entre o nome e mensagem (Valor padrão é :)
     };
     const twitch_giphy = new TwitchGiphy(options);
   });
