@@ -29,7 +29,9 @@ Um chatbot para Twitch que integra a API do GIPHY para aprender Typescript
 
 ### Configurando servidor
 
-Antes de tudo você precisa configurar as opções de API da Twitch e do Giphy. Vá até o diretório `src/config` e duplique o arquivo `index.example.ts`, nomei-o `index.ts` e altere as informações.
+Antes de tudo você precisa configurar as opções de API da Twitch e do Giphy. 
+
+Crie um ficheiro de variáveis de ambiente (.env) idêntico ao [ficheiro de exemplo](.env.example) e altere as informações de acordo com os valores abaixo.
 
 - **TWITCH_USERNAME**, seu username ou do seu bot
 - **TWITCH_TOKEN**, você pode obter através de https://twitchapps.com/tmi/
@@ -37,23 +39,7 @@ Antes de tudo você precisa configurar as opções de API da Twitch e do Giphy. 
 - **GIPHY_RATING**, aceita somente os valores 'y' | 'g' | 'pg' | 'pg-13' | 'r'
 - **GIPHY_TOKEN**, você pode obter através de https://developers.giphy.com/
 
-```ts
-import { Configuration } from "./configuration";
-
-const config: Configuration = {
-  twitch: {
-    username: "TWITCH_USERNAME",
-    token: "TWITCH_TOKEN",
-    channels: ["TWITCH_CHAT_CHANNEL"]
-  },
-  giphy: {
-    rating: "GIPHY_RATING",
-    token: "GIPHY_TOKEN"
-  }
-};
-
-export default config;
-```
+Com esta configuração, quando o chatbot for implantado num serviço tal como o aws, netlify ou outra plataforma, somente será necessário definir estes valores na plataforma.
 
 ### Configurando exibição
 
