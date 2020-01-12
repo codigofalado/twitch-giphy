@@ -23,22 +23,21 @@ async function main() {
       );
     }
     //
-    // cria o objecto configuração com base na informação recebida das variaveis de ambiente obtidas do ficheiro configuração (.env) 
+    // cria o objecto configuração com base na informação recebida das variaveis de ambiente obtidas do ficheiro configuração (.env)
     const userconfig = CreateConfiguration(
       process.env.TWITCH_USERNAME,
       process.env.TWITCH_TOKEN,
       process.env.TWITCH_CHANNELS,
       process.env.GIPHY_TOKEN,
-      process.env.GIPHY_RATING?process.env.GIPHY_RATING:'g'
+      process.env.GIPHY_RATING ? process.env.GIPHY_RATING : "g"
     );
-    
+
     // Inicia o servidor
     const Server = server();
 
-  
     // destrutura os valores obtidos para o twitch e giphy obtidos
-    const { channels,token,username}= userconfig.twitch;
-    const { token: giphy_token, rating }=userconfig.giphy;
+    const { channels, token, username } = userconfig.twitch;
+    const { token: giphy_token, rating } = userconfig.giphy;
 
     //Inicializa a API da Twitch e do Giphy
     const { chat } = new twitch({ token, username });
