@@ -33,8 +33,8 @@
     this.iframe.frameBorder = 0;
     this.iframe.allowFullScreen = true;
 
-    this.target.appendChild(this.sender);
     this.target.appendChild(this.iframe);
+    this.target.appendChild(this.sender);
 
     this.socket = io.connect(location.origin);
     this.socket.on('giphy', this.push.bind(this));
@@ -84,7 +84,8 @@
     if (this.iframe.src !== data.gif) {
       console.info(`Loading gif ${data.gif}`);
       this.target.style.visibility = 'visible';
-      this.target.style.backgroundColor = data.color;
+      this.iframe.style.backgroundColor = data.color;
+      this.sender.style.backgroundColor = data.color;
 
       this.iframe.src = data.gif;
       this.iframe.onload = () => {
@@ -107,7 +108,8 @@
    */
   TwitchGiphy.prototype.hide = function() {
     this.target.style.visibility = 'hidden';
-    this.target.style.removeProperty('backgroundColor');
+    this.iframe.style.removeProperty('backgroundColor');
+    this.sender.style.removeProperty('backgroundColor');
   };
 
   $.TwitchGiphy = TwitchGiphy;
