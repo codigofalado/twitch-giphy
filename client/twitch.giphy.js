@@ -106,6 +106,7 @@
    *  Remove exibição do gif
    */
   TwitchGiphy.prototype.hide = function() {
+    this.iframe.src = 'about:blank';
     this.target.style.visibility = 'hidden';
     this.target.style.removeProperty('backgroundColor');
   };
