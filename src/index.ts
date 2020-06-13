@@ -45,15 +45,15 @@ async function main() {
 
     // Conecta na Twitch e aos entra nos chats configurados
     await chat.connect();
-    await Promise.all(channels.map(ch => chat.join(ch)));
+    await Promise.all(channels.map((ch) => chat.join(ch)));
 
     // Escutar todas as mensagem privadas
-    chat.on("PRIVMSG", async payload => {
+    chat.on("PRIVMSG", async (payload) => {
       const {
         tags: { color },
         username,
         message,
-        channel
+        channel,
       } = payload;
 
       // Caso o usuário não tem uma cor definida, ele irá gerar uma cor
@@ -68,15 +68,17 @@ async function main() {
 
           try {
             const {
-              data: { embed_url }
+              data: { embed_url },
             } = await gif.translate({ s: gif_search, rating });
 
-            Server.emit("giphy", {
-              gif: embed_url,
-              user: username,
-              color: user_color,
-              message: gif_search
-            });
+            if (embed_url) {
+              Server.emit("giphy", {
+                gif: embed_url,
+                user: username,
+                color: user_color,
+                message: gif_search,
+              });
+            }
           } catch (err) {
             chat.say(
               channel.substring(1),
