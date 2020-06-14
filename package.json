@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "clear":"rimraf dist",
+    "clear": "rimraf dist",
     "start": "node dist/index.js",
     "start:watch": "nodemon -w dist dist/index.js",
     "build:watch": "tsc -w"
@@ -36,7 +36,7 @@
     "@types/giphy-api": "^2.0.2",
     "@types/node": "^12.7.4",
     "@types/socket.io": "^2.1.2",
-    "nodemon": "^1.19.2",
+    "nodemon": "^2.0.4",
     "rimraf": "^3.0.0",
     "typescript": "^3.6.2"
   }
