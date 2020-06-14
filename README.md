@@ -13,18 +13,20 @@ Um chatbot para Twitch que integra a API do GIPHY para aprender Typescript
 - [x] - Remover o GIF da tela depois de 8 segundos
 - [x] - Criar uma classe em Typescript para lidar com o chatbot/servidor
 - [x] - Permitir outros atalhos para inserir o GIF na Live (!giphy, !gif, #)
-- [ ] - Alterar a tela do GIF (Browser) para exibir o Username + Balão estilo quadrinhos que cerca todo o GIF.
+- [x] - Alterar a tela do GIF (Browser) para exibir o Username + Balão estilo quadrinhos que cerca todo o GIF.
+- [x] - Permitir determinar número de segundos diferentes para users normais e subscribers.
 - [ ] - Refatorar para permitir que todos os streamers DO MUNDO façam uso dessa MARAVILHA da natureza que REVOLUCIONA as Lives :)
 
 ## Nice to have
 
 - [x] - Fazer uma fila de GIFs para garantir que o GIF de todos será exibido
-- [ ] - Poder definir quem pode usar o comando (todos, só seguidores, só subs)
+- [ ] - Poder definir quem pode usar o comando (todos, só seguidores, só subs, VIPS, Mods, etc)
+- [ ] - README em Inglês
 - [ ] - Automatizar um deploy para AWS (sempre disponível)
-- [ ] - Sisteminha básico de pontos para evitar FLOOD (ou integrar com Cheer)
 - [ ] - Implementar cooldown de X segundos para evitar FLOOD.
 - [ ] - Possibilitar integração com outras plataformas além do Twitch.
 - [ ] - Possibilitar o uso de múltiplos comandos (`!gif`, `!giphy`).
+- [ ] - Possibilitar definição de CUSTO para o comando (BITs, Pontos do Canal).
 
 ## Configurando o Projeto
 
@@ -52,9 +54,10 @@ Para customizar a exibição, vá no arquivo `client/index.html` e procure por:
 <script>
   window.addEventListener("load", () => {
     const options = {
-      duration: 8, // Opcional: valor em segundos (Valor padrão é 8)
+      duration_default: 4, // Opcional: valor em segundos (Valor padrão é 4)
+      duration_sub: 8, // Opcional: valor em segundos para subs (Valor padrão é 8)
       max_queue: 10, // Opcional: quantidade máxima de gifs na fila (Valor padrão é 10)
-      separator: ":" // Opcional: separador entre o nome e mensagem (Valor padrão é :)
+      separator: ":", // Opcional: separador entre o nome e mensagem (Valor padrão é :)
     };
     const twitch_giphy = new TwitchGiphy(options);
   });

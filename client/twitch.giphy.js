@@ -3,7 +3,11 @@
     this.target = target;
     this.last_time = 0;
     this.play_time = 0;
-    this.duration = (options.duration && options.duration * 1000) || 8000;
+    this.duration = 0; // Guarda o número de segundos a exibir o GIF
+    this.duration_default =
+      (options.duration_default && options.duration_default * 1000) || 4000;
+    this.duration_sub =
+      (options.duration_sub && options.duration_sub * 1000) || 8000;
 
     this.queue = [];
     this.max_queue = options.max_queue || 10;
@@ -27,13 +31,12 @@
     this.sender.appendChild(this.separator);
     this.sender.appendChild(this.message);
 
-    this.iframe = document.createElement("iframe");
-    this.iframe.classList.add("twitch-giphy__gif");
-    this.iframe.src = "about:blank";
-    this.iframe.frameBorder = 0;
-    this.iframe.allowFullScreen = true;
+    this.image = document.createElement("img");
+    this.image.classList.add("twitch-giphy__gif");
+    this.image.src =
+      "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"; // Empty GIF
 
-    this.target.appendChild(this.iframe);
+    this.target.appendChild(this.image);
     this.target.appendChild(this.sender);
 
     this.socket = io.connect(location.origin);
@@ -82,21 +85,25 @@
    */
   TwitchGiphy.prototype.show = function (data) {
     if ("gif" in data) {
-      if (this.iframe.src !== data.gif) {
+      if (this.image.src !== this.url(data.gif)) {
+        this.duration =
+          data.sub == 1 ? this.duration_sub : this.duration_default;
         console.info(`Loading gif ${data.gif}`);
-        this.target.style.visibility = "visible";
-        this.target.style.backgroundColor = data.color;
-        this.sender.style.backgroundColor = data.color;
+        console.info(`GIF Duration`, this.duration);
 
-        this.iframe.src = data.gif;
-        this.iframe.onload = () => {
+        this.image.onload = () => {
           data.play_time = 0;
           data.playing = true;
+          this.target.style.visibility = "visible";
+          this.target.style.backgroundColor = data.color;
+          this.sender.style.backgroundColor = data.color;
         };
+        this.image.src = this.url(data.gif);
         // Em casos de error é forçado pular o gif
-        this.iframe.onerror = () => {
+        this.image.onerror = () => {
           data.play_time = this.duration;
           data.playing = false;
+          this.hide();
         };
 
         this.username.innerText = `@${data.user}`;
@@ -106,17 +113,28 @@
       console.log(data);
       data.play_time = this.duration;
       data.playing = false;
+      this.hide();
     }
   };
 
   /**
    *  Remove exibição do gif
    */
-  TwitchGiphy.prototype.hide = function() {
-    this.iframe.src = 'about:blank';
-    this.target.style.visibility = 'hidden';
-    this.iframe.style.removeProperty('backgroundColor');
-    this.sender.style.removeProperty('backgroundColor');
+  TwitchGiphy.prototype.hide = function () {
+    this.image.onload = null;
+    this.image.src =
+      "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+    this.target.style.visibility = "hidden";
+    this.target.style.backgroundColor = "";
+    this.sender.style.backgroundColor = "";
+    console.log(this.target);
+  };
+
+  /**
+   *  Formata a URL do gif
+   */
+  TwitchGiphy.prototype.url = function (id) {
+    return `https://media.giphy.com/media/${id}/giphy.gif`;
   };
 
   $.TwitchGiphy = TwitchGiphy;
