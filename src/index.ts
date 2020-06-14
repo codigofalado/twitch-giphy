@@ -49,8 +49,9 @@ async function main() {
 
     // Escutar todas as mensagem privadas
     chat.on("PRIVMSG", async (payload) => {
+      // console.log(payload);
       const {
-        tags: { color },
+        tags: { color, subscriber },
         username,
         message,
         channel,
@@ -68,13 +69,15 @@ async function main() {
 
           try {
             const {
-              data: { embed_url },
+              // data: { embed_url },
+              data: { id },
             } = await gif.translate({ s: gif_search, rating });
 
-            if (embed_url) {
+            if (id) {
               Server.emit("giphy", {
-                gif: embed_url,
+                gif: id,
                 user: username,
+                sub: subscriber,
                 color: user_color,
                 message: gif_search,
               });

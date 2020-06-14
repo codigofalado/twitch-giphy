@@ -16,14 +16,15 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="twitch.giphy.js"></script>
     <script>
-      window.addEventListener('load', () => {
+      window.addEventListener("load", () => {
         const options = {
-          duration: 8, // Opcional: valor em segundos (Valor padrão é 8)
+          duration_default: 4, // Opcional: valor em segundos para usuário normal (Valor padrão é 4)
+          duration_sub: 8, // Opcional: valor em segundos para quem é sub (Valor padrão é 8)
           max_queue: 10, // Opcional: quantidade máxima de gifs na fila (Valor padrão é 10)
-          separator: ':', // Opcional: separador entre o nome e mensagem (Valor padrão é :)
+          separator: ":", // Opcional: separador entre o nome e mensagem (Valor padrão é :)
         };
         const twitch_giphy = new TwitchGiphy(
-          document.getElementById('twitch-giphy'),
+          document.getElementById("twitch-giphy"),
           options
         );
       });
