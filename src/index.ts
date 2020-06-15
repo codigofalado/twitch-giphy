@@ -14,7 +14,7 @@ import server from './server';
 
 async function main(): Promise<void> {
   try {
-    // verifica se os valores lidos das variaveis de ambiente obtidas do ficheiro configuração (.env) estão presentes e correctos
+    // Verifica se os valores lidos das variaveis de ambiente obtidas do ficheiro configuração (.env) estão presentes e correctos
     if (
       !CheckConfiguratonParameters(
         process.env.TWITCH_USERNAME,
@@ -28,7 +28,7 @@ async function main(): Promise<void> {
       );
     }
 
-    // cria o objecto configuração com base na informação recebida das variaveis de ambiente obtidas do ficheiro configuração (.env)
+    // Cria o objecto configuração com base na informação recebida das variaveis de ambiente obtidas do ficheiro configuração (.env)
     const userConfig = CreateConfiguration(
       process.env.TWITCH_USERNAME,
       process.env.TWITCH_TOKEN,
@@ -40,7 +40,7 @@ async function main(): Promise<void> {
     // Inicia o servidor
     const Server = server();
 
-    // destrutura os valores obtidos para o twitch e giphy obtidos
+    // Obtendo os valores obtidos para o twitch e giphy obtidos
     const { channels, token, username } = userConfig.twitch;
     const { token: giphyToken, rating } = userConfig.giphy;
 
