@@ -6,10 +6,10 @@ import Twitch, { UserStateTags } from 'twitch-js';
 import { CreateConfiguration } from './config';
 import { GiphyRating } from './config/Configuration';
 
-import CheckConfiguratonParameters from './utils/CheckConfiguratonParameters';
-import GenerateColor from './utils/GenerateColor';
+import CheckConfiguratonParameters from './utils/checkConfiguratonParameters';
+import { Command, MatchCommand, GetArgs } from './utils/command';
+import GenerateColor from './utils/generateColor';
 
-import { Command, MatchCommand, GetArgs } from './command';
 import server from './server';
 
 async function main(): Promise<void> {

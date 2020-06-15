@@ -5,7 +5,7 @@
  * @param GiphyToken token api giphy
  * @returns se os valores existem e estão correctos.
  */
-export default function CheckConfiguratonParameters(
+export default function checkConfiguratonParameters(
   TwitchUsername?: string,
   TwitchToken?: string,
   TwitchChannels?: string,
