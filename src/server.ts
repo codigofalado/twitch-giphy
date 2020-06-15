@@ -1,6 +1,7 @@
-import path from 'path';
-import express, { Request, Response } from 'express';
+import express, { Response } from 'express';
+
 import http from 'http';
+import path from 'path';
 import io from 'socket.io';
 
 export default function Server(): io.Server {
@@ -9,9 +10,9 @@ export default function Server(): io.Server {
 
   app.use(express.static(path.resolve(process.cwd(), 'client')));
 
-  // catch 404
-  app.use((request: Request, response: Response): any => {
-    response.status(404).send('Not found!');
+  // Catch 404
+  app.use((_, response: Response) => {
+    return response.status(404).send('Not found!');
   });
 
   const server = http.createServer(app);

@@ -1,4 +1,4 @@
-type GiphyRating = 'y' | 'g' | 'pg' | 'pg-13' | 'r';
+export type GiphyRating = 'y' | 'g' | 'pg' | 'pg-13' | 'r';
 
 export interface Configuration {
   twitch: {

@@ -1,5 +1,4 @@
-import { Configuration } from "./configuration";
-
+import { Configuration, GiphyRating as IGiphyRating } from './Configuration';
 
 /**
  * função para criar o objecto configuração
@@ -11,21 +10,22 @@ import { Configuration } from "./configuration";
  * @returns Objecto de configuração necessário para chatbot funcionar
  */
 
-export const CreateConfiguration = (
+export function CreateConfiguration(
   TwitchUsername: string,
   TwitchToken: string,
   TwitchChannels: string,
   GiphyToken: string,
-  GiphyRating: any
-) => <Configuration> ({
-  twitch: {
-    username: TwitchUsername,
-    token: TwitchToken,
-    channels: TwitchChannels.split(",") //o dotenv nao permite arrays, logo a lista de canais vai ser (canal1,canal2) e feito o split por (,)
-  },
-  giphy: {
-    rating: GiphyRating,
-    token: GiphyToken
-  }
-});
-
+  GiphyRating: IGiphyRating,
+): Configuration {
+  return {
+    twitch: {
+      username: TwitchUsername,
+      token: TwitchToken,
+      channels: TwitchChannels.split(','), // o dotenv nao permite arrays, logo a lista de canais vai ser (canal1,canal2) e feito o split por (,)
+    },
+    giphy: {
+      rating: GiphyRating,
+      token: GiphyToken,
+    },
+  };
+}

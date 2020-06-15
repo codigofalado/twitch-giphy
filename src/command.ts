@@ -1,36 +1,32 @@
 export const Command = {
-  Giphy: ["!giphy", "!gif", "#"],
+  Giphy: ['!giphy', '!gif', '#'],
 };
 
-export const MatchCommand = (command: string[] | string, message: string) => {
+export function MatchCommand(
+  command: string[] | string,
+  message: string,
+): boolean {
   // Se o comando for array, retorna true se um dos items do array coincidir
-  //com o começo da mensagem
+  // com o começo da mensagem
   if (command instanceof Array) {
-    const cmd = command.find((val) => {
-      return message.startsWith(val);
-    });
-    return cmd != undefined;
+    const cmd = command.find(val => message.startsWith(val));
+    return cmd !== undefined;
   }
+
   // Se o comando for string, retorna o resultado de startsWith
   return message.startsWith(command);
-};
+}
 
-export const GetArgs = (command: string[] | string, message: string) => {
+export function GetArgs(command: string[] | string, message: string): string {
   // Se o comando é array, identifica o comando usado,
   // depois remova-o da mensagem
-  if (command instanceof Array) {
-    const cmd = command.find((val) => {
-      return message.startsWith(val);
-    });
-    return message
-      .substring(cmd.length)
-      .trim()
-      .replace(/[^\w\s!?]/g, "");
-  }
+  const cmd =
+    command instanceof Array
+      ? command.find(val => message.startsWith(val))
+      : command; // Se o comando é string, substring
 
-  // Se o comando é string, substring
   return message
-    .substring(command.length)
+    .substring(cmd.length)
     .trim()
-    .replace(/[^\w\s!?]/g, "");
-};
+    .replace(/[^\w\s!?]/g, '');
+}
