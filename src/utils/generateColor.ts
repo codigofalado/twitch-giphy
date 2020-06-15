@@ -1,7 +1,7 @@
 /**
  * Generate a Hex color
  */
-export function GenerateColor(): string {
+export default function generateColor(): string {
   const letters = '0123456789ABCDEF';
   const color = new Array(6)
     .fill(0)
