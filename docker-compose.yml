@@ -1,6 +1,7 @@
 version: '3'
 services:
   twitch-giphy:
+    container_name: twitch-giphy
     build: .
     restart: always
     ports:
