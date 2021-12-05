@@ -49,13 +49,13 @@ async function main() {
 
     // Escutar todas as mensagem privadas
     chat.on("PRIVMSG", async (payload) => {
-      // console.log(payload);
+       //console.log(payload);
       const {
         tags: { color, subscriber },
         username,
         message,
         channel,
-      } = payload;
+      }: any = payload;
 
       // Caso o usuário não tem uma cor definida, ele irá gerar uma cor
       const user_color = color === true ? GenerateColor() : color;
