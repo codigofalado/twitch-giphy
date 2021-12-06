@@ -41,6 +41,7 @@
 
     this.socket = io.connect(location.origin);
     this.socket.on("giphy", this.push.bind(this));
+    this.socket.on("gif", this.push.bind(this));
 
     // Inicia o processo de atualizar a fila
     requestAnimationFrame(this.update.bind(this));
@@ -84,8 +85,9 @@
    * Exibir o gif
    */
   TwitchGiphy.prototype.show = function (data) {
+    console.log(data);
     if ("gif" in data) {
-      if (this.image.src !== this.url(data.gif)) {
+      if (this.image.src !== this.url(data)) {
         this.duration =
           data.sub == 1 ? this.duration_sub : this.duration_default;
         console.info(`Loading gif ${data.gif}`);
@@ -98,7 +100,8 @@
           this.target.style.backgroundColor = data.color;
           this.sender.style.backgroundColor = data.color;
         };
-        this.image.src = this.url(data.gif);
+        this.image.src = this.url(data);
+        console.log(this.image.src);
         // Em casos de error é forçado pular o gif
         this.image.onerror = () => {
           data.play_time = this.duration;
@@ -133,8 +136,9 @@
   /**
    *  Formata a URL do gif
    */
-  TwitchGiphy.prototype.url = function (id) {
-    return `https://media.giphy.com/media/${id}/giphy.gif`;
+  TwitchGiphy.prototype.url = function (data) {
+    //return `https://bestanimations.com/Humans/Mouths/animated-mouth-lips-gif-8.gif`
+    return data.type === "giphy" ? `https://media.giphy.com/media/${data.gif}/giphy.gif` : data.gif ;
   };
 
   $.TwitchGiphy = TwitchGiphy;

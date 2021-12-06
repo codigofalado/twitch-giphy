@@ -1,5 +1,6 @@
 export const Command = {
-  Giphy: ["!giphy", "!gif", "#"],
+  Giphy: ["!giphy", "#"],
+  Gif: ["!gif"]
 };
 
 export const MatchCommand = (command: string[] | string, message: string) => {
