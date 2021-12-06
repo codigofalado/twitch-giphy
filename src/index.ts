@@ -6,6 +6,7 @@ import { CheckConfiguratonParameters } from "./utils/utils";
 import server from "./server";
 import { GenerateColor } from "./utils/color";
 import { Command, MatchCommand, GetArgs } from "./command";
+import gifs from "./config/gifs.json";
 
 async function main() {
   try {
@@ -75,6 +76,7 @@ async function main() {
 
             if (id) {
               Server.emit("giphy", {
+                type: "giphy",
                 gif: id,
                 user: username,
                 sub: subscriber,
@@ -88,8 +90,25 @@ async function main() {
               `@${username}, Desculpa, não achei GIF sobre ${gif_search}`
             );
           }
-        }
+        }break;
+        case MatchCommand(Command.Gif, message): {
+          const gif_search = GetArgs(Command.Gif, message); // GIF Search Term
+          if (!gif_search) return;
+          const gif = gifs.find(x => x.name === gif_search);
+          if(gif){
+            Server.emit("gif", {
+              type: "predefined",
+              gif: gif.url,
+              user: username,
+              sub: subscriber,
+              color: user_color,
+              message: gif_search,
+            });
+          }
 
+
+
+        }break;
         default: {
           break;
         }

@@ -14,7 +14,8 @@ services:
     volumes:
       - ./:/usr/app
     working_dir: /usr/app
-    command: npm run start:watch
+    command: npm run start:watch:debug
     ports:
       - "3000:3000"
+      - "9229:9229"
 
