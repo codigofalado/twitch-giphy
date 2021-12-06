@@ -90,15 +90,19 @@ async function main() {
               `@${username}, Desculpa, não achei GIF sobre ${gif_search}`
             );
           }
+
+
         }break;
         case MatchCommand(Command.Gif, message): {
           const gif_search = GetArgs(Command.Gif, message); // GIF Search Term
           if (!gif_search) return;
           const gif = gifs.find(x => x.name === gif_search);
+          //check if url is array, if so take random one
+          const url = Array.isArray(gif.url) ? gif.url[Math.floor(Math.random() * gif.url.length)] : gif.url
           if(gif){
             Server.emit("gif", {
               type: "predefined",
-              gif: gif.url,
+              gif: url,
               user: username,
               sub: subscriber,
               color: user_color,
