@@ -1,0 +1,21 @@
+version: '3'
+services:
+  twitch-giphy-dev-typescript-watcher:
+    image: node:16
+    container_name: twitch-giphy-dev-typescript
+    volumes:
+      - ./:/usr/app
+    working_dir: /usr/app
+    command: npm run build:watch
+
+  twitch-giphy-dev-javascript-watcher:
+    image: node:16
+    container_name: twitch-giphy-dev-javascript
+    volumes:
+      - ./:/usr/app
+    working_dir: /usr/app
+    command: npm run start:watch:debug
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+
