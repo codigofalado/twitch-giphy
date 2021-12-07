@@ -5,7 +5,8 @@ import { CreateConfiguration } from "./config/index";
 import { CheckConfiguratonParameters } from "./utils/utils";
 import server from "./server";
 import { GenerateColor } from "./utils/color";
-import { Command, MatchCommand, GetArgs } from "./command";
+import { Command, MatchCommand, GetArgs, IsUserAllowed } from "./command";
+import gifs from "./config/gifs.json";
 
 async function main() {
   try {
@@ -49,20 +50,20 @@ async function main() {
 
     // Escutar todas as mensagem privadas
     chat.on("PRIVMSG", async (payload) => {
-      // console.log(payload);
+       console.log(payload);
+       console.log("payload");
       const {
         tags: { color, subscriber },
         username,
         message,
         channel,
-      } = payload;
+      }: any = payload;
 
       // Caso o usuário não tem uma cor definida, ele irá gerar uma cor
       const user_color = color === true ? GenerateColor() : color;
-
       switch (true) {
-        case MatchCommand(Command.Giphy, message): {
-          const gif_search = GetArgs(Command.Giphy, message); // GIF Search Term
+        case MatchCommand(Command["Giphy"], message): {
+          const gif_search = GetArgs(Command["Giphy"], message); // GIF Search Term
 
           // Se não houver o termo de busca, será ignorado
           if (!gif_search) return;
@@ -75,6 +76,7 @@ async function main() {
 
             if (id) {
               Server.emit("giphy", {
+                type: "giphy",
                 gif: id,
                 user: username,
                 sub: subscriber,
@@ -88,8 +90,30 @@ async function main() {
               `@${username}, Desculpa, não achei GIF sobre ${gif_search}`
             );
           }
-        }
 
+
+        }break;
+        case MatchCommand(Command["Gif"], message): {
+          if(!IsUserAllowed(payload,["Moderator","VIP"])) return;
+          const gif_search = GetArgs(Command["Gif"], message); // GIF Search Term
+          if (!gif_search) return;
+          const gif = gifs.find(x => x.name === gif_search);
+          //check if url is array, if so take random one
+          const url = Array.isArray(gif.url) ? gif.url[Math.floor(Math.random() * gif.url.length)] : gif.url
+          if(gif){
+            Server.emit("gif", {
+              type: "predefined",
+              gif: url,
+              user: username,
+              sub: subscriber,
+              color: user_color,
+              message: gif_search,
+            });
+          }
+
+
+
+        }break;
         default: {
           break;
         }
