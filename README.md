@@ -22,7 +22,7 @@ A Twitch chatbot that integrates the GIPHY's API to learn Typescript
 ## Nice to have
 
 - [x] - Do a GIF row to make sure every GIFs will be displayed
-- [ ] - Be able to set who can use the commands (everyone, only followers, only subs, VIPS, Mods etc.)
+- [x] - Be able to set who can use the commands (everyone, only followers, only subs, VIPS, Mods etc.)
 - [x] - README in English
 - [ ] - Automate a deploy to AWS (always available)
 - [ ] - Implement X cooldown seconds to avoid FLOOD
