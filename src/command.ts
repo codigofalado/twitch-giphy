@@ -57,26 +57,25 @@ export const IsUserAllowed = (messagePayload : any,allowedRoles) => {
   let isAllowed = false;
 
   if (allowedRoles.includes("Everyone")) {
-    console.log("user is everyone");
     isAllowed = true;
   }
+
   if (allowedRoles.includes("VIP") && !isAllowed) {
-    console.log("user is VIP");
     isAllowed = messagePayload.tags.badges.vip;
   }
   if (allowedRoles.includes("Moderator") && !isAllowed) {
-    console.log("user is Moderator");
     isAllowed = messagePayload.tags.isModerator;
   }
 
-  if(allowedRoles.includes("Owner") && !isAllowed ){
-    console.log("user is Owner");
-    isAllowed = `#${messagePayload.username}` === messagePayload.channel
-  }
   if(allowedRoles.includes("Subscriber") && !isAllowed){
-    console.log("user is Subscriber");
     isAllowed = `#${messagePayload.subscriber}` === "1"
   }
+
+  //owner is always allowed to do everything,even if not defined
+  if(!isAllowed ){
+    isAllowed = `#${messagePayload.username}` === messagePayload.channel
+  }
+
   console.log(isAllowed)
   return isAllowed;
 
