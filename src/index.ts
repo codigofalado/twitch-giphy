@@ -7,9 +7,48 @@ import server from "./server";
 import { GenerateColor } from "./utils/color";
 import { Command, MatchCommand, GetArgs, IsUserAllowed } from "./command";
 import gifs from "./config/gifs.json";
+import path from "path";
+
 
 async function main() {
   try {
+    console.log("index all gifs first...");
+    const testFolder = path.resolve(process.cwd(), 'client','gif');
+    const fs = require('fs');
+    const filesToAdd =[];
+
+    let filesToKeep =[];
+
+    await fs.readdirSync(testFolder).forEach(file => {
+      console.log(file);
+
+      //remove last 4 chars, should be ".gif"
+      const name =  file.slice(0, -4);
+      if(!gifs.some(x => x.url === file)){
+        //add
+        filesToAdd.push({name,url:file,type:"internal"});
+      }else{
+        filesToKeep.push({name,url:file,type:"internal"});
+      }
+    });
+
+    //see which files still in json but not in ToKeep, they have to be removed.
+    const filesToRemove = gifs.filter(x => !filesToKeep.some(y => y.url === x.url) && x.type === "internal");
+    console.log("filesToRemove");
+    console.log(filesToRemove);
+
+    //only update if we actually chance something
+    if(filesToRemove.length !== 0 || filesToAdd.length !==0){
+      //also keep all external gifs
+      filesToKeep = [...filesToKeep, ...gifs.filter(x => x.type ==="external")]
+
+      //merge files we need to keep with the ones we have to add.
+      const newFile = [...filesToKeep,...filesToAdd];
+      await fs.writeFileSync( path.resolve(__dirname,'./config/gifs.json'), JSON.stringify(newFile, null, 2));
+    }
+
+
+
     // verifica se os valores lidos das variaveis de ambiente obtidas do ficheiro configuração (.env) estão presentes e correctos
     if (
       !CheckConfiguratonParameters(
@@ -98,12 +137,17 @@ async function main() {
           const gif_search = GetArgs(Command["Gif"], message); // GIF Search Term
           if (!gif_search) return;
           const gif = gifs.find(x => x.name === gif_search);
-          //check if url is array, if so take random one
-          const url = Array.isArray(gif.url) ? gif.url[Math.floor(Math.random() * gif.url.length)] : gif.url
+
+          //if it's internal, add local link, if external check if url is array, if so take random one (currently only possible with an external url);
+          const fullUrl = gif.type === "internal" ? `${process.env.BASE_URL}/gif/${gif.url}` :
+              Array.isArray(gif.url) ?
+                  gif.url[Math.floor(Math.random() * gif.url.length)] : gif.url;
+
+
           if(gif){
             Server.emit("gif", {
               type: "predefined",
-              gif: url,
+              gif: fullUrl,
               user: username,
               sub: subscriber,
               color: user_color,
