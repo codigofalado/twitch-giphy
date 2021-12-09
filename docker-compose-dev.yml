@@ -4,7 +4,7 @@ services:
     image: node:16
     container_name: twitch-giphy-dev-typescript
     volumes:
-      - ./:/usr/app
+      - ./:/usr/app:Z
     working_dir: /usr/app
     command: npm run build:watch
 
@@ -12,7 +12,7 @@ services:
     image: node:16
     container_name: twitch-giphy-dev-javascript
     volumes:
-      - ./:/usr/app
+      - ./:/usr/app:Z
     working_dir: /usr/app
     command: npm run start:watch:debug
     ports:
