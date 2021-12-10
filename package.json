@@ -8,7 +8,9 @@
     "build": "tsc",
     "clear": "rimraf dist",
     "start": "node dist/index.js",
-    "start:watch": "nodemon -w dist dist/index.js",
+    "develop": "tsnd --poll --respawn src/index.ts",
+    "start:watch": "nodemon --legacy-watch -w dist dist/index.js",
+    "start:watch:debug": "nodemon --inspect=0.0.0.0:9229 --legacy-watch -w dist dist/index.js",
     "build:watch": "tsc -w"
   },
   "repository": {
@@ -38,6 +40,7 @@
     "@types/socket.io": "^2.1.2",
     "nodemon": "^2.0.4",
     "rimraf": "^3.0.0",
+    "ts-node-dev": "^1.1.8",
     "typescript": "^3.6.2"
   }
 }
