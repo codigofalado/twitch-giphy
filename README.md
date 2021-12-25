@@ -22,7 +22,7 @@ A Twitch chatbot that integrates the GIPHY's API to learn Typescript
 ## Nice to have
 
 - [x] - Do a GIF row to make sure every GIFs will be displayed
-- [ ] - Be able to set who can use the commands (everyone, only followers, only subs, VIPS, Mods etc.)
+- [x] - Be able to set who can use the commands (everyone, only followers, only subs, VIPS, Mods etc.)
 - [x] - README in English
 - [ ] - Automate a deploy to AWS (always available)
 - [ ] - Implement X cooldown seconds to avoid FLOOD
@@ -43,6 +43,7 @@ Create a environment variables file (.env) indentical to [file example](.env.exa
 - **TWITCH_CHAT_CHANNEL**, normally is the same as your username
 - **GIPHY_RATING**, accept only the values 'y' | 'g' | 'pg' | 'pg-13' | 'r'
 - **GIPHY_TOKEN**, you can get from https://developers.giphy.com/
+- **BASE_URL**, The url this application will be available on
 
 With this config, when the chatbot be implemented on a service like aws, netlify or other plataform, it will be only necessary to define this values on the plataform. 
 
